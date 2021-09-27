@@ -6,14 +6,18 @@ A Docker image for [nlp100](http://www.cl.ecei.tohoku.ac.jp/nlp100/)
 
 ## Usage
 
-### build
+### Build
+
+```bash
+docker pull eggplanter/nlp100
+```
+
+or 
 
 ```bash
 git clone --depth 1 https://github.com/eggplants/nlp100_docker
 cd nlp100_docker
 docker build -t eggplanter/nlp100 .
-# or ...
-docker pull eggplanter/nlp100
 ```
 
 ### Run
