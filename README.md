@@ -29,7 +29,7 @@ docker run -v $(pwd):/home/local_home/ -p 10000:8888 eggplanter/nlp100
 or
 
 ```bash
-curl -sL  | docker-compose -f- up -d
+curl -sL https://git.io/Jz5ec | docker-compose -f- up -d
 ```
 
 ### Open Notebook
