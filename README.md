@@ -1,5 +1,7 @@
 # nlp100-Docker
 
+[![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/eggplanter/nlp100)](https://hub.docker.com/r/eggplanter/nlp100)
+
 A Docker image for [nlp100](http://www.cl.ecei.tohoku.ac.jp/nlp100/)
 
 ## Usage
