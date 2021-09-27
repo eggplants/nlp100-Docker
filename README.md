@@ -17,9 +17,14 @@ docker pull eggplanter/nlp100
 ### Run
 
 ```bash
-docker run -v $PWD:/local_home -p 10000:8888 eggplanter/nlp100
+docker run -v $(pwd):/home/local_home/ -p 10000:8888 eggplanter/nlp100
 xdg-open http://localhost:10000
 ```
+
+## License
+
+- CRF++, Cabocha
+  - [LGPL](http://www.gnu.org/copyleft/lesser.html) or [new BSD License](http://www.opensource.org/licenses/bsd-license.php)
 
 ## References
 
