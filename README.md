@@ -12,7 +12,7 @@ A Docker image for [nlp100](http://www.cl.ecei.tohoku.ac.jp/nlp100/)
 docker pull eggplanter/nlp100
 ```
 
-or 
+or
 
 ```bash
 git clone --depth 1 https://github.com/eggplants/nlp100_docker
@@ -24,8 +24,17 @@ docker build -t eggplanter/nlp100 .
 
 ```bash
 docker run -v $(pwd):/home/local_home/ -p 10000:8888 eggplanter/nlp100
-xdg-open http://localhost:10000
 ```
+
+or
+
+```bash
+curl -sL  | docker-compose -f- up -d
+```
+
+### Open Notebook
+
+Go to <http://localhost:10000>
 
 ## License
 

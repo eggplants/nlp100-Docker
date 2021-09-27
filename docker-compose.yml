@@ -1,0 +1,10 @@
+version: "3"
+services:
+  note:
+    build: .
+    image: eggplanter/nlp100
+    ports:
+      - 10000:8888
+    tty: true
+    volumes:
+      - ."${PWD}:/home/local_home/"
