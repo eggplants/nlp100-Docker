@@ -1,11 +1,10 @@
 FROM python:3.7-slim
 
-# Modified:                                                      #
-# https://qiita.com/tikogr/items/6b1e48e0143195a426d1#dockerfile #
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-ENV LANG C.UTF-8
 ENV TZ Asia/Tokyo
 ENV PYTHONUNBUFFERED 1
+ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -16,10 +15,28 @@ RUN apt-get update \
     mecab \
     mecab-ipadic-utf8 \
     tar \
-    && apt-get clean \
+    locales \
+    sudo \
+    xz-utils file \
+    fonts-noto-cjk \
+    graphviz \
+    && apt-get autoremove \
+    && apt-get autoclean \
     && rm -rf /var/lib/apt/lists/*
 
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+ENV LANG C.UTF-8
+RUN locale-gen ja_JP.UTF-8
+
+
+# Neologd
+WORKDIR /tmp
+RUN git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git \
+    && mecab-ipadic-neologd/bin/install-mecab-ipadic-neologd -y -n \
+    && echo "dicdir = /usr/lib/x86_64-linux-gnu/mecab/dic/mecab-ipadic-neologd" \
+    > /etc/mecabrc
+
+WORKDIR /
+RUN rm -rf /tmp/*
 
 # CRF++ (Cabocha dependency)
 WORKDIR /tmp
@@ -56,13 +73,26 @@ RUN python setup.py build \
     && python setup.py install \
     && ldconfig
 
-WORKDIR /
-RUN rm -rf /tmp/*
-
 # pip
 WORKDIR /home
 RUN pip install --no-cache-dir \
     jupyterlab mecab-python3 numpy scipy \
     scikit-learn gensim pandas \
-    && pip list
-CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.token=''"]
+    requests matplotlib pydot graphviz nltk
+
+RUN : \
+    && echo "font.serif      :" \
+            "Noto Serif CJK JP, DejaVu Serif, DejaVu Serif, Bitstream Vera Serif," \
+            "Computer Modern Roman, New Century Schoolbook, Century Schoolbook L," \
+            "Utopia, ITC Bookman, Bookman, Nimbus Roman No9 L, Times New Roman, Times, Palatino" \
+       >> /usr/local/lib/python*/dist-packages/matplotlib/mpl-data/matplotlibrc \
+    && echo "font.sans-serif :" \
+            "Noto Sans CJK JP, DejaVu Sans, Bitstream Vera Sans, Computer Modern Sans Serif," \
+            "Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif" \
+       >> /usr/local/lib/python*/dist-packages/matplotlib/mpl-data/matplotlibrc \
+    && rm -rf ~/.cache/matplotlib
+
+CMD ["jupyter", "notebook", \
+     "--port=8888", "--no-browser", \
+     "--ip=0.0.0.0", "--allow-root", \
+     "--NotebookApp.token=''"]
