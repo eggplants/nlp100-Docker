@@ -8,18 +8,18 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-    build-essential \
-    curl \
-    git \
-    libmecab-dev \
-    mecab \
-    mecab-ipadic-utf8 \
-    tar \
-    locales \
-    sudo \
-    xz-utils file \
-    fonts-noto-cjk \
-    graphviz \
+    build-essential=12.9  \
+    curl=7.74.0-1.3+b1 \
+    file=1:5.39-3 \
+    fonts-noto-cjk=1:20201206-cjk+repack1-1 \
+    git=1:2.30.2-1 \
+    graphviz=2.42.2-5 \
+    libmecab-dev=0.996-14+b4 \
+    locales=2.31-13 \
+    mecab=0.996-14+b4 \
+    mecab-ipadic-utf8=2.7.0-20070801+main-3 \
+    sudo=1.9.5p2-3 \
+    xz-utils=5.2.5-2 \
     && apt-get autoremove \
     && apt-get autoclean \
     && rm -rf /var/lib/apt/lists/*
@@ -74,25 +74,34 @@ RUN python setup.py build \
     && ldconfig
 
 # pip
-WORKDIR /home
 RUN pip install --no-cache-dir \
-    jupyterlab mecab-python3 numpy scipy \
-    scikit-learn gensim pandas \
-    requests matplotlib pydot graphviz nltk
+    gensim==4.1.2 \
+    graphviz==0.17 \
+    jupyterlab==3.1.14 \
+    matplotlib==3.4.3 \
+    mecab-python3==1.0.4 \
+    nltk==3.6.3 \
+    numpy==1.21.2 \
+    pandas==1.3.3 \
+    pydot==1.4.2 \
+    requests==2.26.0 \
+    scikit-learn==1.0 \
+    scipy==1.7.1
 
-RUN : \
-    && echo "font.serif      :" \
-            "Noto Serif CJK JP, DejaVu Serif, DejaVu Serif, Bitstream Vera Serif," \
-            "Computer Modern Roman, New Century Schoolbook, Century Schoolbook L," \
-            "Utopia, ITC Bookman, Bookman, Nimbus Roman No9 L, Times New Roman, Times, Palatino" \
-       >> /usr/local/lib/python3.7/site-packages/matplotlib/mpl-data/matplotlibrc \
+WORKDIR /home
+
+RUN echo "font.serif      :" \
+    "Noto Serif CJK JP, DejaVu Serif, DejaVu Serif, Bitstream Vera Serif," \
+    "Computer Modern Roman, New Century Schoolbook, Century Schoolbook L," \
+    "Utopia, ITC Bookman, Bookman, Nimbus Roman No9 L, Times New Roman, Times, Palatino" \
+    >> /usr/local/lib/python3.7/site-packages/matplotlib/mpl-data/matplotlibrc \
     && echo "font.sans-serif :" \
-            "Noto Sans CJK JP, DejaVu Sans, Bitstream Vera Sans, Computer Modern Sans Serif," \
-            "Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif" \
-       >> /usr/local/lib/python3.7/site-packages/matplotlib/mpl-data/matplotlibrc \
+    "Noto Sans CJK JP, DejaVu Sans, Bitstream Vera Sans, Computer Modern Sans Serif," \
+    "Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif" \
+    >> /usr/local/lib/python3.7/site-packages/matplotlib/mpl-data/matplotlibrc \
     && rm -rf ~/.cache/matplotlib
 
 CMD ["jupyter", "notebook", \
-     "--port=8888", "--no-browser", \
-     "--ip=0.0.0.0", "--allow-root", \
-     "--NotebookApp.token=''"]
+    "--port=8888", "--no-browser", \
+    "--ip=0.0.0.0", "--allow-root", \
+    "--NotebookApp.token=''"]

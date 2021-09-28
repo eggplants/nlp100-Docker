@@ -43,4 +43,6 @@ Go to <http://localhost:10000>
 
 ## References
 
-<https://qiita.com/tikogr/items/6b1e48e0143195a426d1#dockerfile>
+- [nlp100-image/Dockerfile at master · moisutsu/nlp100-image](https://github.com/moisutsu/nlp100-image/blob/master/Dockerfile)
+- [Python/NLP/機械学習のためのDocker環境構築 - Qiita](https://qiita.com/tikogr/items/6b1e48e0143195a426d1#dockerfile)
+- [myword-cloud/Dockerfile at main · Amakuchisan/myword-cloud](https://github.com/Amakuchisan/myword-cloud/blob/423bce27868bb421244d9c09919f07eb843327bf/Dockerfile)
