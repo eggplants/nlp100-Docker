@@ -7,4 +7,4 @@ services:
       - 10000:8888
     tty: true
     volumes:
-      - ."${PWD}:/home/local_home/"
+      - .${PWD}:/home/local_home/
