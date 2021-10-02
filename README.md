@@ -22,6 +22,8 @@ docker build -t eggplanter/nlp100 .
 
 ### Run
 
+- launch notebook server
+
 ```bash
 docker run -v $(pwd):/home/local_home/ -p 10000:8888 eggplanter/nlp100
 ```
@@ -32,9 +34,13 @@ or
 curl -sL https://git.io/Jz5ec | docker-compose -f- up -d
 ```
 
-### Open Notebook
+- To open Notebook, Go to <http://localhost:10000>
+- If you want to use shell only, run like this:
 
-Go to <http://localhost:10000>
+```bash
+docker run -it -v $(pwd):/home/local_home/ --entrypoint bash eggplanter/nlp100
+```
+
 
 ## License
 
